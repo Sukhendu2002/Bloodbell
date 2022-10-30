@@ -10,6 +10,8 @@ exports.signup = async (req, res, next) => {
     contact,
     address,
     userType,
+    age,
+    gender,
   } = req.body;
   try {
     const isalready = await User.findOne({ email });
@@ -29,6 +31,23 @@ exports.signup = async (req, res, next) => {
         error: "Password must be at least 6 characters",
       });
     }
+    //check for contact number
+    // if (contact.length < 11) {
+    //   return res.status(400).json({
+    //     error: "Contact number must contain 10 characters",
+    //   });
+    // }
+    //check for age
+    if (age < 18) {
+      return res.status(400).json({
+        error: "Age must be greater than 18",
+      });
+    }
+    if (age < 18 && userType == "donor") {
+      return res.status(400).json({
+        error: "Age must be greater than 18 to be a donor",
+      });
+    }
     const user = await User.create({
       userName,
       email,
@@ -38,6 +57,8 @@ exports.signup = async (req, res, next) => {
       contact,
       address,
       userType,
+      age,
+      gender,
     });
     sendTokenResponse(user, 201, res);
   } catch (err) {

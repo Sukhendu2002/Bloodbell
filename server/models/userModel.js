@@ -35,27 +35,28 @@ const UserSchema = new mongoose.Schema({
   bloodGroup: {
     type: String,
     required: [true, "Please enter blood group"],
-    minlength: [2, "Blood group must be at least 2 characters"],
-    maxlength: 255,
   },
   contact: {
     type: String,
     required: [true, "Please enter contact number"],
-    minlength: [10, "Contact number must be at least 10 characters"],
-    maxlength: 255,
   },
   address: {
     type: String,
     required: [true, "Please enter address"],
-    minlength: [10, "Address must be at least 10 characters"],
-    maxlength: 255,
   },
   userType: {
     type: String,
     required: [true, "Please enter user type"],
-    minlength: [3, "User type must be at least 3 characters"],
-    maxlength: 255,
     enum: ["donor", "seeker"],
+  },
+  age: {
+    type: Number,
+    required: [true, "Please enter age"],
+  },
+
+  gender: {
+    type: String,
+    required: [true, "Please enter your gender"],
   },
 
   date: {
