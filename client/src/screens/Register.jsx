@@ -23,15 +23,13 @@ const Register = ({ setLoggedIn }) => {
   const navigate = useNavigate();
   useEffect(() => {
     const token = localStorage.getItem("authToken");
-
     if (token) {
       navigate("/dashboard");
     }
   }, []);
 
-  const getLocation = (e) => {
-    e.preventDefault();
-
+  const getLocation = async () => {
+    // e.preventDefault();
     navigator.geolocation.getCurrentPosition(function (position) {
       setLatitude(position.coords.latitude);
       setLongitude(position.coords.longitude);

@@ -14,14 +14,19 @@ const Header = ({ isLoggedIn, setLoggedIn }) => {
   }, []);
 
   return (
-    <nav className="navbar navbar-expand-lg bg-light ">
+    <nav
+      className="navbar navbar-expand-lg "
+      style={{
+        height: "80px",
+      }}
+    >
       <div className="container-fluid container">
         <Link
           to={isLoggedIn ? "/dashboard" : "/"}
           style={{
             color: "black",
             textDecoration: "none",
-            fontSize: "20px",
+            fontSize: "30px",
             fontWeight: "bold",
             fontFamily: "sans-serif",
             marginRight: "10px",
@@ -43,11 +48,11 @@ const Header = ({ isLoggedIn, setLoggedIn }) => {
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            {/* <li className="nav-item">
+            <li className="nav-item">
               <Link className="nav-link active" aria-current="page" to="/">
-                Home
+                Search Blood Bank
               </Link>
-            </li> */}
+            </li>
             {/* <li className="nav-item">
               <Link className="nav-link active" aria-current="page" to="/blogs">
                 Blogs
