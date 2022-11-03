@@ -3,15 +3,14 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "./header.css";
 const Header = ({ isLoggedIn, setLoggedIn }) => {
-  const [login, setLogin] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    if (token) {
-      setLogin(true);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const token = localStorage.getItem("authToken");
+  //   if (token) {
+  //     setLogin(true);
+  //   }
+  // }, []);
 
   return (
     <nav
@@ -22,7 +21,7 @@ const Header = ({ isLoggedIn, setLoggedIn }) => {
     >
       <div className="container-fluid container">
         <Link
-          to={isLoggedIn ? "/dashboard" : "/"}
+          to="/"
           style={{
             color: "black",
             textDecoration: "none",
@@ -81,6 +80,7 @@ const Header = ({ isLoggedIn, setLoggedIn }) => {
             <button
               onClick={() => {
                 localStorage.removeItem("authToken");
+                localStorage.removeItem("user");
                 navigate("/");
                 // setLogin(false);
                 setLoggedIn(false);

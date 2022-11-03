@@ -1,4 +1,5 @@
 const User = require("../models/userModel");
+const jwt = require("jsonwebtoken");
 
 exports.signup = async (req, res, next) => {
   const {
@@ -113,4 +114,29 @@ const sendTokenResponse = (user, statusCode, res) => {
     token,
     user: userObj,
   });
+};
+
+//check if the token is still valid
+exports.validStatus = async (req, res, next) => {
+  const { token } = req.body;
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.id);
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      user: user,
+    });
+  } catch (err) {
+    res.status(400).json({
+      success: false,
+      message: "Error logging in user",
+      error: err,
+    });
+  }
 };

@@ -65,7 +65,12 @@ const UserSchema = new mongoose.Schema({
   },
   lastDonationDate: {
     type: Date,
-    default: Date.now,
+    default: null,
+  },
+
+  score: {
+    type: Number,
+    default: 0,
   },
 });
 
@@ -89,6 +94,19 @@ UserSchema.methods.getSignedJwtToken = function () {
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRE,
   });
+};
+
+UserSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
+  if (this.passwordChangedAt) {
+    const changedTimestamp = parseInt(
+      this.passwordChangedAt.getTime() / 1000,
+      10
+    );
+
+    return JWTTimestamp < changedTimestamp;
+  }
+
+  return false;
 };
 
 const User = mongoose.model("User", UserSchema);
