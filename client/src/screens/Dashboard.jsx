@@ -9,7 +9,7 @@ const Dashboard = () => {
       navigate("/login");
     }
   }, []);
-  return <div>Dashboard</div>;
+  return <div className="container-fluid container">Dashboard</div>;
 };
 
 export default Dashboard;

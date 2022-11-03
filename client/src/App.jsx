@@ -9,6 +9,7 @@ import Register from "./screens/Register";
 import Dashboard from "./screens/Dashboard";
 import PrivateRoute from "./routing/PrivateRoute";
 import server from "./config/index";
+import SearchBloodBanks from "./screens/SearchBloodBanks";
 const App = () => {
   //check if the authToken is available in localStorage
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -73,7 +74,7 @@ const App = () => {
             <Route path="/edit/:id" element={<EditBlog />} /> */}
             </Route>
             <Route path="/" element={<Home />} />
-            {/* <Route path="/blogs" element={<Blogs />} /> */}
+            <Route path="/searchbloodbanks" element={<SearchBloodBanks />} />
             <Route
               path="/login"
               element={<Login setLoggedIn={setLoggedIn} />}

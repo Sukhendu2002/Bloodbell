@@ -49,33 +49,31 @@ const Header = ({ isLoggedIn, setLoggedIn }) => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className="nav-link active" aria-current="page" to="/">
-                Search Blood Bank
-              </Link>
-            </li>
-            {/* <li className="nav-item">
-              <Link className="nav-link active" aria-current="page" to="/blogs">
-                Blogs
-              </Link>
-            </li>
-            <li className="nav-item">
               <Link
                 className="nav-link active"
                 aria-current="page"
-                to="/dashboard"
+                to="searchbloodbanks"
               >
-                Add Blog
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/2069/2069788.png"
+                  alt="car"
+                  style={{
+                    height: "30px",
+                    width: "30px",
+                  }}
+                />
+                <span
+                  style={{
+                    marginLeft: "10px",
+                    alignItems: "center",
+                    textAlign: "center",
+                    fontSize: "1.2rem",
+                  }}
+                >
+                  Nearest Blood Bank
+                </span>
               </Link>
             </li>
-            <li className="nav-item">
-              <Link
-                className="nav-link active"
-                aria-current="page"
-                to="/myblogs"
-              >
-                My Blogs
-              </Link>
-            </li> */}
           </ul>
           {isLoggedIn ? (
             <button
