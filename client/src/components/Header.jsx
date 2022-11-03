@@ -17,6 +17,7 @@ const Header = ({ isLoggedIn, setLoggedIn }) => {
       className="navbar navbar-expand-lg "
       style={{
         height: "80px",
+        zIndex: "100",
       }}
     >
       <div className="container-fluid container">

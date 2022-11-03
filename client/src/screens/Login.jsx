@@ -35,6 +35,11 @@ const Login = ({ setLoggedIn }) => {
 
   const loginHandler = async (e) => {
     e.preventDefault();
+    if (email === "" || password === "") {
+      notify("Please fill all the fields", "error");
+      return;
+    }
+
     setLoading(true);
     const config = {
       header: {
@@ -69,40 +74,75 @@ const Login = ({ setLoggedIn }) => {
           <div className="loader__inner">Loading</div>
         </div>
       ) : (
-        <div className="container">
-          <h1>Login</h1>
-          <form className="mt-5" onSubmit={loginHandler}>
-            <div className="mb-3">
-              <label className="form-label">Email address</label>
-              <input
-                type="email"
-                className="form-control"
-                placeholder="email"
-                id="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              ></input>
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Password</label>
-              <input
-                type="password"
-                className="form-control"
-                placeholder="password"
-                id="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              ></input>
-            </div>
+        <section className="vh-100 gradient-custom">
+          <div className="container py-5 h-100">
+            <div className="row justify-content-center align-items-center ">
+              <div className="col-12 col-lg-9 col-xl-7">
+                <div
+                  className="card shadow-2-strong card-registration"
+                  style={{ borderRadius: "15px" }}
+                >
+                  <div className="card-body p-5 p-md-5">
+                    <h3
+                      className="mb-4 pb-2"
+                      style={{
+                        color: "#1c2331",
 
-            <button type="submit" className="btn btn-primary">
-              Submit
-            </button>
-          </form>
+                        textAlign: "center",
+                      }}
+                    >
+                      Login
+                    </h3>
+                    <form>
+                      <div className="row">
+                        <div className="col-md-12 mb-4">
+                          <div className="form-outline">
+                            <input
+                              type="text"
+                              id="name"
+                              className="form-control form-control-md"
+                              onChange={(e) => setEmail(e.target.value)}
+                              required
+                            />
+                            <label className="form-label">
+                              Email <span className="text-danger">*</span>
+                            </label>
+                          </div>
+                        </div>
+                        <div className="col-md-12 mb-4">
+                          <div className="form-outline">
+                            <input
+                              type="password"
+                              id="lastName"
+                              className="form-control form-control-md"
+                              onChange={(e) => setPassword(e.target.value)}
+                              required
+                            />
+                            <label className="form-label">
+                              Password <span className="text-danger">*</span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="mt-4 pt-2">
+                        <button
+                          className="btn btn-primary btn-lg"
+                          type="submit"
+                          value="Submit"
+                          onClick={loginHandler}
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <ToastContainer />
-        </div>
+        </section>
       )}
     </>
   );
