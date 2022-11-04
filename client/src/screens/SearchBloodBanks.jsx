@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Select from "react-select";
-import { State, City } from "country-state-city";
 import axios from "axios";
 
 const SearchBloodBanks = () => {
@@ -8,13 +6,12 @@ const SearchBloodBanks = () => {
   const [search, setSearch] = useState("");
   const [latitude, setLatitude] = useState(0);
   const [longitude, setLongitude] = useState(0);
-  const [state, setState] = useState("");
-  const [city, setCity] = useState("");
+  const [state, setState] = useState([]);
+  const [city, setCity] = useState([]);
   const [statesCode, setStatesCode] = useState("");
-  const [searchBloodBanks, setSearchBloodBanks] = useState([]);
 
-  const states = State.getStatesOfCountry("IN");
-  const cities = City.getCitiesOfState("IN", statesCode);
+  const [selectedState, setSelectedState] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
 
   const endPoint = `https://www.eraktkosh.in/BLDAHIMS/bloodbank/nearbyBB.cnt?hmode=GETNEARBYBLOODBANK&latitude=${latitude}&longitude=${longitude}`;
 
@@ -23,16 +20,27 @@ const SearchBloodBanks = () => {
       setLatitude(position.coords.latitude);
       setLongitude(position.coords.longitude);
     });
+    const ststeUrl = `https://www.eraktkosh.in/BLDAHIMS/bloodbank/nearbyBB.cnt?hmode=GETSTATELIST&statetype=3&lang=0`;
+    axios.get(ststeUrl).then((res) => {
+      setState(res.data);
+      console.log(res.data);
+    });
     fetchBlood();
   }, [endPoint]);
+
+  useEffect(() => {
+    const cityUrl = `https://www.eraktkosh.in/BLDAHIMS/bloodbank/nearbyBB.cnt?hmode=GETDISTRICTLIST&selectedStateCode=${selectedState}&lang=0`;
+    axios.get(cityUrl).then((res) => {
+      setCity(res.data.records);
+      // console.log(res.data.records);
+    });
+  }, [selectedState]);
 
   const fetchBlood = async () => {
     await axios
       .get(endPoint)
       .then((res) => {
         setBloodBanks(res.data.data);
-
-        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -40,16 +48,22 @@ const SearchBloodBanks = () => {
   };
 
   const handleSearch = () => {
-    console.log(state, city, search);
+    const uri = `https://www.eraktkosh.in/BLDAHIMS/bloodbank/nearbyBB.cnt?hmode=GETNEARBYBLOODBANK&stateCode=${selectedState}&districtCode=${selectedCity}`;
+    axios.get(uri).then((res) => {
+      setBloodBanks(res.data.data);
+    });
 
-    if (state != "" && city === "" && search === "") {
-      bloodBanks.map((bloodBank) => {
-        //check if bloodBank[1] has state in it
-        if (bloodBank[2].includes(state)) {
-          console.log(bloodBank);
+    let filteredBloodBanks = [];
+    if (search !== "") {
+      for (let i = 0; i < bloodBanks.length; i++) {
+        if (bloodBanks[i][1].toLowerCase().includes(search.toLowerCase())) {
+          //push as object
+          filteredBloodBanks.push(bloodBanks[i]);
         }
-      });
+      }
     }
+    setBloodBanks(filteredBloodBanks);
+    console.log(filteredBloodBanks);
   };
 
   return (
@@ -76,19 +90,14 @@ const SearchBloodBanks = () => {
           <select
             className="form-control"
             onChange={(e) => {
-              setState(e.target.value);
-              const code = e.target.outerHTML
-                .split(`value="${e.target.value}"`)[1]
-                .split(" code=")[1]
-                .split('"')[1];
-              setStatesCode(code);
+              console.log(e.target.value);
+              setSelectedState(e.target.value);
             }}
           >
             <option value="">Select State</option>
-
-            {states.map((state, index) => (
-              <option value={state.name} key={index} code={state.isoCode}>
-                {state.name}
+            {state.map((item, index) => (
+              <option key={index} value={item.value}>
+                {item.label}
               </option>
             ))}
           </select>
@@ -97,22 +106,16 @@ const SearchBloodBanks = () => {
           <select
             className="form-control"
             onChange={(e) => {
-              setCity(e.target.value);
+              setSelectedCity(e.target.value);
             }}
           >
             <option value="">Select City</option>
-            {
-              //if the state is selected then only show the cities
-              statesCode && (
-                <React.Fragment>
-                  {cities.map((city, index) => (
-                    <option value={city.name} key={index}>
-                      {city.name}
-                    </option>
-                  ))}
-                </React.Fragment>
-              )
-            }
+            {city.length > 0 &&
+              city.map((item, index) => (
+                <option key={index} value={item.value}>
+                  {item.id}
+                </option>
+              ))}
           </select>
         </div>
         <div className="col-4">
