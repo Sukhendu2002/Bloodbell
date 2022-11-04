@@ -56,19 +56,7 @@ const SearchBloodBanks = () => {
             ))}
           </select>
         </div>
-        <div className="col-3">
-          <select
-            className="form-control"
-            onChange={(e) => {
-              setCity(e.target.value);
-            }}
-          >
-            <option value="">Select City</option>
-            {cities.map((city) => {
-              return <option value={city.name}>{city.name}</option>;
-            })}
-          </select>
-        </div>
+        <div className="col-3"></div>
         <div className="col-3"></div>
         <div className="col-3"></div>
       </div>
