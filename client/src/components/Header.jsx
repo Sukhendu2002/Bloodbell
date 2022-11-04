@@ -16,6 +16,7 @@ const Header = ({ isLoggedIn, setLoggedIn }) => {
     <nav
       className="navbar navbar-expand-lg "
       style={{
+        backgroundColor: "#F45369",
         height: "80px",
         zIndex: "100",
       }}
@@ -24,14 +25,15 @@ const Header = ({ isLoggedIn, setLoggedIn }) => {
         <Link
           to="/"
           style={{
-            color: "black",
+            color: "#E4FDE1",
             textDecoration: "none",
             fontSize: "30px",
             fontWeight: "bold",
             fontFamily: "sans-serif",
             marginRight: "10px",
           }}
-        >
+        ><span><img src="..\public\images\logo.png" width="60" height="60" alt="" /></span>
+          
           BloodBell
         </Link>
         <button

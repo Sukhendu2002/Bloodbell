@@ -1,0 +1,11 @@
+.card-post {
+    margin-top: 2rem;
+    background-color: white; 
+    border-color: #456990;
+    border-width: unset;
+    border-style: dashed;
+    border-radius: 1.2rem;
+}
+.card-post p{
+    margin: 5% 5% 5% 5%;
+}
