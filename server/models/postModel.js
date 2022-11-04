@@ -23,15 +23,10 @@ const postModel = new mongoose.Schema({
     type: String,
     required: [true, "Please enter address"],
   },
-  userType: {
+  user: {
     type: String,
-    required: [true, "Please enter user type"],
-    enum: ["donor", "seeker"],
-  },
-  age: {
-    type: Number,
-    required: [true, "Please enter age"],
   },
 });
 
-module.exports = mongoose.model("Post", postModel);
+const Post = mongoose.model("Post", postModel);
+module.exports = Post;
