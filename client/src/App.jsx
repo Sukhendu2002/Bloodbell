@@ -13,6 +13,7 @@ import SearchBloodBanks from "./screens/SearchBloodBanks";
 import BloodDonationCamps from "./screens/BloodDonationCamps";
 import DonationProcess from "./screens/DonationProcess";
 import BloodBanksToDonate from "./screens/BloodBanksToDonate";
+import Appointment from "./screens/Appointment";
 const App = () => {
   //check if the authToken is available in localStorage
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -76,6 +77,7 @@ const App = () => {
                 path="/findBloodBankToDonate"
                 element={<BloodBanksToDonate />}
               />
+              <Route path="/appointment" element={<Appointment />} />
               {/* <Route path="/myblogs" element={<MyWritenBlogs />} />
             <Route path="/edit/:id" element={<EditBlog />} /> */}
             </Route>

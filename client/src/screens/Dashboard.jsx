@@ -1,15 +1,36 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const { state } = useLocation();
+  const { massage } = state || {};
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     if (!token) {
       navigate("/login");
     }
+    if (massage) {
+      toast.success(massage);
+      console.log(massage);
+    }
   }, []);
+
+  const notify = (message, type) => {
+    toast(message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      type: type,
+    });
+  };
 
   const user = JSON.parse(localStorage.getItem("user"));
   return (
@@ -53,6 +74,7 @@ const Dashboard = () => {
           </Link>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

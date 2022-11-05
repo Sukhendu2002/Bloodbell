@@ -2,10 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./login.css";
-//React Toastify
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// import Loader from "../components/Loader";
 import server from "../config/index";
 
 const Login = ({ setLoggedIn }) => {
@@ -16,7 +14,11 @@ const Login = ({ setLoggedIn }) => {
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     if (token) {
-      navigate("/dashboard");
+      navigate("/dashboard", {
+        state: {
+          massage: "You are already logged in",
+        },
+      });
     }
   }, []);
 
@@ -61,7 +63,11 @@ const Login = ({ setLoggedIn }) => {
       localStorage.setItem("user", JSON.stringify(res.data.user));
       setLoggedIn(true);
       setLoading(false);
-      navigate("/dashboard");
+      navigate("/dashboard", {
+        state: {
+          massage: "You are logged in successfully",
+        },
+      });
     } catch (err) {
       setLoading(false);
       notify(err.response.data.message, "error");
