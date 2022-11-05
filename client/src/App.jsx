@@ -10,6 +10,9 @@ import Dashboard from "./screens/Dashboard";
 import PrivateRoute from "./routing/PrivateRoute";
 import server from "./config/index";
 import SearchBloodBanks from "./screens/SearchBloodBanks";
+import BloodDonationCamps from "./screens/BloodDonationCamps";
+import DonationProcess from "./screens/DonationProcess";
+import BloodBanksToDonate from "./screens/BloodBanksToDonate";
 const App = () => {
   //check if the authToken is available in localStorage
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -36,7 +39,6 @@ const App = () => {
         setIsLoggedIn(true);
         setUser(res.data.user);
         localStorage.setItem("user", JSON.stringify(res.data.user));
-        console.log("user", user);
       }
     } catch (err) {
       setLoading(false);
@@ -70,11 +72,17 @@ const App = () => {
           <Routes>
             <Route element={<PrivateRoute />}>
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route
+                path="/findBloodBankToDonate"
+                element={<BloodBanksToDonate />}
+              />
               {/* <Route path="/myblogs" element={<MyWritenBlogs />} />
             <Route path="/edit/:id" element={<EditBlog />} /> */}
             </Route>
             <Route path="/" element={<Home />} />
             <Route path="/searchbloodbanks" element={<SearchBloodBanks />} />
+            <Route path="/nearbyCamps" element={<BloodDonationCamps />} />
+            <Route path="/donationProcess" element={<DonationProcess />} />
             <Route
               path="/login"
               element={<Login setLoggedIn={setLoggedIn} />}

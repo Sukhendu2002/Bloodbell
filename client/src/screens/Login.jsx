@@ -58,6 +58,7 @@ const Login = ({ setLoggedIn }) => {
       );
 
       localStorage.setItem("authToken", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
       setLoggedIn(true);
       setLoading(false);
       navigate("/dashboard");

@@ -25,6 +25,7 @@ const SearchBloodBanks = () => {
       setState(res.data);
       console.log(res.data);
     });
+
     fetchBlood();
   }, [endPoint]);
 

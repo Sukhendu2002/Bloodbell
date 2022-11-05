@@ -11,6 +11,7 @@ const Header = ({ isLoggedIn, setLoggedIn }) => {
   //     setLogin(true);
   //   }
   // }, []);
+  const token = localStorage.getItem("authToken");
 
   return (
     <nav
@@ -22,7 +23,7 @@ const Header = ({ isLoggedIn, setLoggedIn }) => {
     >
       <div className="container-fluid container">
         <Link
-          to="/"
+          to={token ? "/dashboard" : "/"}
           style={{
             color: "black",
             textDecoration: "none",
@@ -71,6 +72,29 @@ const Header = ({ isLoggedIn, setLoggedIn }) => {
                   }}
                 >
                   Nearest Blood Bank
+                </span>
+              </Link>
+            </li>
+
+            <li className="nav-item">
+              <Link className="nav-link" to="nearbyCamps">
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/2069/2069788.png"
+                  alt="car"
+                  style={{
+                    height: "30px",
+                    width: "30px",
+                  }}
+                />
+                <span
+                  style={{
+                    marginLeft: "10px",
+                    alignItems: "center",
+                    textAlign: "center",
+                    fontSize: "1.2rem",
+                  }}
+                >
+                  Blood Donation Camps
                 </span>
               </Link>
             </li>

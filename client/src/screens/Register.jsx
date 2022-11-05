@@ -8,17 +8,24 @@ import server from "../config/index";
 const Register = ({ setLoggedIn }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userName, setUserName] = useState("");
   const [loading, setLoading] = useState(false);
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
   const [name, setName] = useState("");
   const [bloodGroup, setBloodGroup] = useState("");
   const [contact, setContact] = useState("");
-  const [address, setAddress] = useState("");
-  const [userType, setUserType] = useState("");
-  const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
+  const [dob, setDob] = useState("");
+  const [adharno, setAdharno] = useState("");
+  const [state, setState] = useState([]);
+  const [city, setCity] = useState([]);
+  const [specificCity, setSpecificCity] = useState("");
+  const [selectedState, setSelectedState] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+  const [lastDonated, setLastDonated] = useState("");
+
+  const [cityvalue, setCityValue] = useState("");
+  const [statevalue, setStateValue] = useState("");
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -26,6 +33,11 @@ const Register = ({ setLoggedIn }) => {
     if (token) {
       navigate("/dashboard");
     }
+    const ststeUrl = `https://www.eraktkosh.in/BLDAHIMS/bloodbank/nearbyBB.cnt?hmode=GETSTATELIST&statetype=3&lang=0`;
+    axios.get(ststeUrl).then((res) => {
+      setState(res.data);
+      console.log(res.data);
+    });
   }, []);
 
   const getLocation = async () => {
@@ -35,6 +47,14 @@ const Register = ({ setLoggedIn }) => {
       setLongitude(position.coords.longitude);
     });
   };
+
+  useEffect(() => {
+    const cityUrl = `https://www.eraktkosh.in/BLDAHIMS/bloodbank/nearbyBB.cnt?hmode=GETDISTRICTLIST&selectedStateCode=${selectedState}&lang=0`;
+    axios.get(cityUrl).then((res) => {
+      setCity(res.data.records);
+      // console.log(res.data.records);
+    });
+  }, [selectedState]);
 
   const notify = (message, type) => {
     toast(message, {
@@ -52,16 +72,16 @@ const Register = ({ setLoggedIn }) => {
   const registerHandler = async (e) => {
     e.preventDefault();
     if (
-      !email ||
-      !password ||
-      !userName ||
-      !name ||
-      !bloodGroup ||
-      !contact ||
-      !address ||
-      !userType ||
-      !age ||
-      !gender
+      name === "" ||
+      dob === "" ||
+      gender === "" ||
+      bloodGroup === "" ||
+      adharno === "" ||
+      email === "" ||
+      contact === "" ||
+      cityvalue === "" ||
+      statevalue === "" ||
+      password === ""
     ) {
       notify("Please enter all fields", "error");
       return;
@@ -78,16 +98,18 @@ const Register = ({ setLoggedIn }) => {
       const res = await axios.post(
         `${server}/api/auth/signup`,
         {
-          userName,
+          name,
+          dob,
+          gender,
+          bloodGroup,
+          adharno,
           email,
           password,
-          name,
-          bloodGroup,
           contact,
-          address,
-          userType,
-          age,
-          gender,
+          cityvalue,
+          statevalue,
+          specificCity,
+          lastDonated,
         },
         config
       );
@@ -120,11 +142,12 @@ const Register = ({ setLoggedIn }) => {
                 >
                   <div className="card-body p-4 p-md-5">
                     <h3 className="mb-4 pb-2 pb-md-0 mb-md-5">
-                      Registration Form
+                      Donor Registration Form
                     </h3>
                     <form>
                       <div className="row">
-                        <div className="col-md-6 mb-4">
+                        <h5 className="">Personal Details</h5>
+                        <div className="col-md-12 mb-4">
                           <div className="form-outline">
                             <input
                               type="text"
@@ -133,115 +156,68 @@ const Register = ({ setLoggedIn }) => {
                               onChange={(e) => setName(e.target.value)}
                             />
                             <label className="form-label">
-                              Name <span className="text-danger">*</span>
+                              Full Name <span className="text-danger">*</span>
                             </label>
                           </div>
                         </div>
-                        <div className="col-md-6 mb-4">
-                          <div className="form-outline">
-                            <input
-                              type="text"
-                              id="lastName"
-                              className="form-control form-control-md"
-                              onChange={(e) => setUserName(e.target.value)}
-                            />
-                            <label className="form-label">
-                              Username <span className="text-danger">*</span>
-                            </label>
+                        <div className="row">
+                          <div className="col-md-6 mb-4 d-flex align-items-center">
+                            <div className="form-outline datepicker w-100">
+                              <input
+                                type="date"
+                                className="form-control form-control-md"
+                                id="age"
+                                onChange={(e) => setDob(e.target.value)}
+                              />
+                              <label className="form-label">
+                                DOB <span className="text-danger">*</span>
+                              </label>
+                            </div>
+                          </div>
+                          <div className="col-md-6 mb-4">
+                            <h6 className="mb-2 pb-1">
+                              Gender: <span className="text-danger">*</span>
+                            </h6>
+
+                            <div className="form-check form-check-inline">
+                              <input
+                                className="form-check-input"
+                                type="radio"
+                                name="inlineRadioOptions"
+                                id="femaleGender"
+                                value="female"
+                                // checked
+                                onChange={(e) => setGender(e.target.value)}
+                              />
+                              <label className="form-check-label">Female</label>
+                            </div>
+
+                            <div className="form-check form-check-inline">
+                              <input
+                                className="form-check-input"
+                                type="radio"
+                                name="inlineRadioOptions"
+                                id="maleGender"
+                                value="male"
+                                onChange={(e) => setGender(e.target.value)}
+                              />
+                              <label className="form-check-label">Male</label>
+                            </div>
+
+                            <div className="form-check form-check-inline">
+                              <input
+                                className="form-check-input"
+                                type="radio"
+                                name="inlineRadioOptions"
+                                id="otherGender"
+                                value="other"
+                                onChange={(e) => setGender(e.target.value)}
+                              />
+                              <label className="form-check-label">Other</label>
+                            </div>
                           </div>
                         </div>
-                      </div>
-
-                      <div className="row">
-                        <div className="col-md-6 mb-4 d-flex align-items-center">
-                          <div className="form-outline datepicker w-100">
-                            <input
-                              type="number"
-                              className="form-control form-control-md"
-                              id="age"
-                              onChange={(e) => setAge(e.target.value)}
-                            />
-                            <label className="form-label">
-                              Age <span className="text-danger">*</span>
-                            </label>
-                          </div>
-                        </div>
-                        <div className="col-md-6 mb-4">
-                          <h6 className="mb-2 pb-1">
-                            Gender: <span className="text-danger">*</span>
-                          </h6>
-
-                          <div className="form-check form-check-inline">
-                            <input
-                              className="form-check-input"
-                              type="radio"
-                              name="inlineRadioOptions"
-                              id="femaleGender"
-                              value="female"
-                              // checked
-                              onChange={(e) => setGender(e.target.value)}
-                            />
-                            <label className="form-check-label">Female</label>
-                          </div>
-
-                          <div className="form-check form-check-inline">
-                            <input
-                              className="form-check-input"
-                              type="radio"
-                              name="inlineRadioOptions"
-                              id="maleGender"
-                              value="male"
-                              onChange={(e) => setGender(e.target.value)}
-                            />
-                            <label className="form-check-label">Male</label>
-                          </div>
-
-                          <div className="form-check form-check-inline">
-                            <input
-                              className="form-check-input"
-                              type="radio"
-                              name="inlineRadioOptions"
-                              id="otherGender"
-                              value="other"
-                              onChange={(e) => setGender(e.target.value)}
-                            />
-                            <label className="form-check-label">Other</label>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="row">
-                        <div className="col-md-6 mb-4 pb-2">
-                          <div className="form-outline">
-                            <input
-                              type="email"
-                              id="emailAddress"
-                              className="form-control form-control-md"
-                              onChange={(e) => setEmail(e.target.value)}
-                            />
-                            <label className="form-label">
-                              Email <span className="text-danger">*</span>
-                            </label>
-                          </div>
-                        </div>
-                        <div className="col-md-6 mb-4 pb-2">
-                          <div className="form-outline">
-                            <input
-                              type="number"
-                              id="phoneNumber"
-                              className="form-control form-control-md"
-                              onChange={(e) => setContact(e.target.value)}
-                            />
-                            <label className="form-label">
-                              Phone Number{" "}
-                              <span className="text-danger">*</span>
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="row">
-                        <div className="col-6">
+                        <div className="col-6 mb-4">
                           <label className="form-label select-label">
                             Blood Group: <span className="text-danger">*</span>
                           </label>
@@ -264,24 +240,128 @@ const Register = ({ setLoggedIn }) => {
                             <option value="O-">O-</option>
                           </select>
                         </div>
-                        <div className="col-6">
-                          <label className="form-label select-label">
-                            User Type: <span className="text-danger">* </span>
-                          </label>
-                          <select
-                            className="select form-control-md  rounded-3
-                            mx-2"
-                            onChange={(e) => setUserType(e.target.value)}
-                          >
-                            <option value="1">Select User Type</option>
+                        <div className="col-md-6 mb-4">
+                          <div className="form-outline">
+                            <input
+                              type="text"
+                              id="contact"
+                              className="form-control form-control-md"
+                              onChange={(e) => setAdharno(e.target.value)}
+                            />
+                            <label className="form-label">
+                              Adhaar Number{" "}
+                              <span className="text-danger">*</span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
 
-                            <option value="donor">Donor</option>
-                            <option value="seeker">Seeker</option>
-                          </select>
+                      <div className="row mb-5">
+                        <h5 className="">Contact Details</h5>
+                        <div className="col-md-6 ">
+                          <div className="form-outline">
+                            <input
+                              type="email"
+                              id="emailAddress"
+                              className="form-control form-control-md"
+                              onChange={(e) => setEmail(e.target.value)}
+                            />
+                            <label className="form-label">
+                              Email <span className="text-danger">*</span>
+                            </label>
+                          </div>
+                        </div>
+                        <div className="col-md-6 ">
+                          <div className="form-outline">
+                            <input
+                              type="number"
+                              id="phoneNumber"
+                              className="form-control form-control-md"
+                              onChange={(e) => setContact(e.target.value)}
+                            />
+                            <label className="form-label">
+                              Phone Number{" "}
+                              <span className="text-danger">*</span>
+                            </label>
+                          </div>
+                        </div>
+                        <div className="col-12">
+                          <label className="form-label select-label">
+                            Password: <span className="text-danger">*</span>
+                          </label>
+                          <input
+                            type="password"
+                            id="password"
+                            className="form-control form-control-md"
+                            onChange={(e) => setPassword(e.target.value)}
+                          />
                         </div>
                       </div>
 
                       <div className="row">
+                        <h5 className="">Location Details</h5>
+                        <div className="col-md-4 col-4">
+                          <label className="form-label select-label">
+                            {" "}
+                            <span className="text-danger">*</span> State:{" "}
+                          </label>
+                          <select
+                            className="form-control"
+                            onChange={(e) => {
+                              setSelectedState(e.target.value);
+                              const x = state.find(
+                                (state) => state.value === e.target.value
+                              );
+                              setStateValue(x.label);
+                            }}
+                          >
+                            <option value="">Select State</option>
+                            {state.map((item, index) => (
+                              <option key={index} value={item.value}>
+                                {item.label}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        <div className="col-md-4 col-4">
+                          <label className="form-label select-label">
+                            {" "}
+                            <span className="text-danger">*</span> City:{" "}
+                          </label>
+                          <select
+                            className="form-control"
+                            onChange={(e) => {
+                              setSelectedCity(e.target.value);
+                              const x = city.find(
+                                (city) => city.value === e.target.value
+                              );
+                              setCityValue(x.id);
+                            }}
+                          >
+                            <option value="">Select City</option>
+                            {city.length > 0 &&
+                              city.map((item, index) => (
+                                <option key={index} value={item.value}>
+                                  {item.id}
+                                </option>
+                              ))}
+                          </select>
+                        </div>
+                        <div className="col-md-4 col-4">
+                          <label className="form-label select-label">
+                            City{" "}
+                          </label>
+                          <input
+                            type="text"
+                            id="city"
+                            className="form-control form-control-md"
+                            placeholder="Enter City if not in list"
+                            onChange={(e) => setSpecificCity(e.target.value)}
+                          />
+                        </div>
+                      </div>
+
+                      {/* <div className="row">
                         <div className="col-6">
                           <label className="form-label select-label">
                             Address: <span className="text-danger">*</span>
@@ -293,16 +373,17 @@ const Register = ({ setLoggedIn }) => {
                             onChange={(e) => setAddress(e.target.value)}
                           />
                         </div>
-
+                      </div> */}
+                      <div className="row mt-3">
                         <div className="col-6">
                           <label className="form-label select-label">
-                            Password: <span className="text-danger">*</span>
+                            Late Date of Donation
                           </label>
                           <input
-                            type="password"
-                            id="password"
+                            type="date"
+                            id="address"
                             className="form-control form-control-md"
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={(e) => setLastDonated(e.target.value)}
                           />
                         </div>
                       </div>

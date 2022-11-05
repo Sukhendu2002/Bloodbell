@@ -3,13 +3,31 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const UserSchema = new mongoose.Schema({
-  userName: {
+  name: {
     type: String,
-    minlength: [3, "Username must be at least 3 characters"],
+    required: [true, "Please enter name"],
+    minlength: [3, "Name must be at least 3 characters"],
     maxlength: 255,
-    required: [true, "Please enter  userName"],
-    unique: [true, "userName is already registered"],
   },
+  dob: {
+    type: Date,
+    required: [true, "Please enter date of birth"],
+  },
+  gender: {
+    type: String,
+    required: [true, "Please enter your gender"],
+  },
+  bloodGroup: {
+    type: String,
+    required: [true, "Please enter blood group"],
+  },
+  adharno: {
+    type: String,
+    required: [true, "Please enter adhar number"],
+    minlength: [12, "Adhar number must be at least 12 characters"],
+    maxlength: 12,
+  },
+
   email: {
     type: String,
     required: [true, "Please enter email"],
@@ -26,46 +44,34 @@ const UserSchema = new mongoose.Schema({
     maxlength: 255,
     select: false, //do not return password in response by default
   },
-  name: {
-    type: String,
-    required: [true, "Please enter name"],
-    minlength: [3, "Name must be at least 3 characters"],
-    maxlength: 255,
-  },
-  bloodGroup: {
-    type: String,
-    required: [true, "Please enter blood group"],
-  },
+
   contact: {
     type: String,
     required: [true, "Please enter contact number"],
-  },
-  address: {
-    type: String,
-    required: [true, "Please enter address"],
-  },
-  userType: {
-    type: String,
-    required: [true, "Please enter user type"],
-    enum: ["donor", "seeker"],
-  },
-  age: {
-    type: Number,
-    required: [true, "Please enter age"],
+    minlength: [10, "Contact number must be at least 10 characters"],
   },
 
-  gender: {
+  city: {
     type: String,
-    required: [true, "Please enter your gender"],
+    required: [true, "Please enter city"],
   },
-
+  state: {
+    type: String,
+    required: [true, "Please enter state"],
+  },
+  specificCity: {
+    type: String,
+  },
+  lastDonated: {
+    type: Date,
+  },
   date: {
     type: Date,
     default: Date.now,
   },
-  lastDonationDate: {
-    type: Date,
-    default: null,
+  totalBloodDonated: {
+    type: Number,
+    default: 0,
   },
 
   score: {

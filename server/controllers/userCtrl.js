@@ -1,18 +1,32 @@
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 
+const calculate = (dob) => {
+  const today = new Date();
+  const birthDate = new Date(dob);
+  let age = today.getFullYear() - birthDate.getFullYear();
+
+  const m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  return age;
+};
+
 exports.signup = async (req, res, next) => {
   const {
     name,
-    userName,
+    dob,
+    gender,
+    bloodGroup,
+    adharno,
     email,
     password,
-    bloodGroup,
     contact,
-    address,
-    userType,
-    age,
-    gender,
+    cityvalue,
+    statevalue,
+    specificCity,
+    lastDonated,
   } = req.body;
   try {
     const isalready = await User.findOne({ email });
@@ -21,45 +35,33 @@ exports.signup = async (req, res, next) => {
         error: "User already exists",
       });
     }
-    const isalreadyUserName = await User.findOne({ userName });
-    if (isalreadyUserName) {
-      return res.status(400).json({
-        error: "UserName already exists",
-      });
-    }
+
     if (password.length < 6) {
       return res.status(400).json({
         error: "Password must be at least 6 characters",
       });
     }
-    //check for contact number
-    // if (contact.length < 11) {
-    //   return res.status(400).json({
-    //     error: "Contact number must contain 10 characters",
-    //   });
-    // }
-    //check for age
+    //calculate age by dob
+    const age = calculate(dob);
     if (age < 18) {
       return res.status(400).json({
-        error: "Age must be greater than 18",
+        error: "Age must be 18 or above",
       });
     }
-    if (age < 18 && userType == "donor") {
-      return res.status(400).json({
-        error: "Age must be greater than 18 to be a donor",
-      });
-    }
+
     const user = await User.create({
-      userName,
+      name,
+      dob,
+      gender,
+      bloodGroup,
+      adharno,
       email,
       password,
-      name,
-      bloodGroup,
       contact,
-      address,
-      userType,
-      age,
-      gender,
+      city: cityvalue,
+      state: statevalue,
+      specificCity,
+      lastDonated,
     });
     sendTokenResponse(user, 201, res);
   } catch (err) {
