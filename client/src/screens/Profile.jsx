@@ -1,11 +1,15 @@
 import React from 'react';
+import Intials from '../components/Intials';
 
 import { BsPencilSquare } from 'react-icons/Bs';
+import Tabs from "../components/Tabs";
 const Profile = () => {
   return (
     <div className='container-fluid'><div class="row">
     <div class="col">
-      1 of 2
+      <Intials />
+      <Intials />
+      <Intials />
     </div>
     <div class="col">
       <div><img src="../public/images/profile.png" alt="" style={{
@@ -29,8 +33,13 @@ const Profile = () => {
       </div>
     </div>
     </div>
+    
+      <Tabs />
+ 
     </div>
   )
+
+  
 }
 
 export default Profile;
