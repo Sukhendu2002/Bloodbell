@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import server from "../config/index";
+import axios from "axios";
 
 const Appointment = () => {
   const navigate = useNavigate();
@@ -10,10 +12,6 @@ const Appointment = () => {
   const [time, setTime] = useState("");
 
   const handleSubmission = () => {
-    const appointment = {
-      date,
-      time,
-    };
     if (date === "" || time === "") {
       alert("Please fill in the date and time");
       return;
@@ -28,12 +26,34 @@ const Appointment = () => {
       return;
     }
 
-    console.log(appointment);
-    navigate("/dashboard", {
-      state: {
-        massage: "Appointment booked successfully",
-      },
-    });
+    let userId = localStorage.getItem("user").split('"')[3];
+
+    axios
+      .post(`${server}/api/donation/addDonation`, {
+        bloodBank: data,
+        donor: userId,
+        date,
+        time,
+      })
+      .then((res) => {
+        console.log(res);
+        navigate("/dashboard", {
+          state: {
+            massage:
+              "Appointment successfully created, Check your profile for more details",
+            type: "success",
+          },
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        navigate("/dashboard", {
+          state: {
+            massage: err.response.data.message,
+            type: "error",
+          },
+        });
+      });
   };
 
   useEffect(() => {

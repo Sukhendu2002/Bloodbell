@@ -7,17 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 const Dashboard = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const { massage } = state || {};
-  useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    if (!token) {
-      navigate("/login");
-    }
-    if (massage) {
-      toast.success(massage);
-      console.log(massage);
-    }
-  }, []);
+  const { massage, type } = state || {};
 
   const notify = (message, type) => {
     toast(message, {
@@ -31,6 +21,16 @@ const Dashboard = () => {
       type: type,
     });
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      navigate("/login");
+    }
+    if (massage) {
+      notify(massage, type);
+    }
+  }, []);
 
   const user = JSON.parse(localStorage.getItem("user"));
   return (

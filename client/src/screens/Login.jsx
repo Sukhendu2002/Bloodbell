@@ -17,6 +17,7 @@ const Login = ({ setLoggedIn }) => {
       navigate("/dashboard", {
         state: {
           massage: "You are already logged in",
+          type: "info",
         },
       });
     }
@@ -66,6 +67,7 @@ const Login = ({ setLoggedIn }) => {
       navigate("/dashboard", {
         state: {
           massage: "You are logged in successfully",
+          type: "success",
         },
       });
     } catch (err) {
