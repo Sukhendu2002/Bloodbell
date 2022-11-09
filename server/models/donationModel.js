@@ -22,6 +22,7 @@ const DonationModel = new mongoose.Schema({
   status: {
     type: String,
     default: "Pending",
+    enum: ["Pending", "Accepted", "Rejected", "Completed"],
   },
 });
 

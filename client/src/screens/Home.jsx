@@ -1,8 +1,31 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Home = () => {
+  const { state } = useLocation();
+  const { massage, type } = state || {};
+  const notify = (message, type) => {
+    toast(message, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      type: type,
+    });
+  };
+
+  useEffect(() => {
+    if (massage) {
+      notify(massage, type);
+    }
+  }, []);
   return (
     <div className="container-fluid container">
       <div className="row">
@@ -47,6 +70,7 @@ const Home = () => {
           />
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

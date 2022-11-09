@@ -64,12 +64,13 @@ const UserSchema = new mongoose.Schema({
   },
   lastDonated: {
     type: Date,
+    default: Date.now,
   },
   date: {
     type: Date,
     default: Date.now,
   },
-  totalBloodDonated: {
+  donationCount: {
     type: Number,
     default: 0,
   },

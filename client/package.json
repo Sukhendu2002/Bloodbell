@@ -19,6 +19,7 @@
     "react-icons": "^4.6.0",
     "react-router-dom": "^6.4.2",
     "react-select": "^5.6.0",
+    "react-simple-widgets": "^6.7.0",
     "react-toastify": "^9.0.8"
   },
   "devDependencies": {

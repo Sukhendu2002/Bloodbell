@@ -36,7 +36,7 @@ const Register = ({ setLoggedIn }) => {
     const ststeUrl = `https://www.eraktkosh.in/BLDAHIMS/bloodbank/nearbyBB.cnt?hmode=GETSTATELIST&statetype=3&lang=0`;
     axios.get(ststeUrl).then((res) => {
       setState(res.data);
-      console.log(res.data);
+      // console.log(res.data);
     });
   }, []);
 
