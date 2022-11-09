@@ -142,3 +142,24 @@ exports.validStatus = async (req, res, next) => {
     });
   }
 };
+
+//get score board
+exports.getScoreBoard = async (req, res, next) => {
+  try {
+    //get all the users
+    const users = await User.find();
+    //sort the users by score
+    const sortedUsers = users.sort((a, b) => b.donationCount - a.donationCount);
+    //send the sorted users
+    res.status(200).json({
+      success: true,
+      users: sortedUsers,
+    });
+  } catch (err) {
+    res.status(400).json({
+      success: false,
+      message: "Error getting score board",
+      error: err,
+    });
+  }
+};

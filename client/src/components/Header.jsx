@@ -88,7 +88,7 @@ const Header = ({ isLoggedIn, setLoggedIn }) => {
               </Link>
             </li>
 
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <Link className="nav-link" to="nearbyCamps">
                 <img
                   src="https://cdn-icons-png.flaticon.com/512/2069/2069788.png"
@@ -108,6 +108,20 @@ const Header = ({ isLoggedIn, setLoggedIn }) => {
                 >
                   Blood Donation Camps
                 </span>
+              </Link>
+            </li> */}
+            <li className="nav-item">
+              <Link className="nav-link" to="scoreboard" 
+                style={{
+                  marginLeft: "10px",
+                  alignItems: "center",
+                  textAlign: "center",
+                  fontSize: "1.2rem",
+                  color: "black",
+                }}
+
+              >
+                Scoreboard
               </Link>
             </li>
           </ul>
