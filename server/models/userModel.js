@@ -6,8 +6,6 @@ const UserSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, "Please enter name"],
-    minlength: [3, "Name must be at least 3 characters"],
-    maxlength: 255,
   },
   dob: {
     type: Date,
@@ -63,8 +61,8 @@ const UserSchema = new mongoose.Schema({
     type: String,
   },
   lastDonated: {
-    type: Date,
-    default: Date.now,
+    type: String,
+    default: "Never",
   },
   date: {
     type: Date,
@@ -74,10 +72,13 @@ const UserSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-
   score: {
     type: Number,
     default: 0,
+  },
+  userName: {
+    type: String,
+    default: null,
   },
 });
 

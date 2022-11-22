@@ -28,6 +28,7 @@ exports.signup = async (req, res, next) => {
     specificCity,
     lastDonated,
   } = req.body;
+  console.log(req.body);
   try {
     const isalready = await User.findOne({ email });
     if (isalready) {
@@ -65,6 +66,7 @@ exports.signup = async (req, res, next) => {
     });
     sendTokenResponse(user, 201, res);
   } catch (err) {
+    console.log(err);
     res.status(500).json({
       error: "Error signing up user",
       err: err.message,
@@ -107,7 +109,6 @@ const sendTokenResponse = (user, statusCode, res) => {
   const token = user.getSignedJwtToken();
   const userObj = {
     _id: user._id,
-    userName: user.userName,
     email: user.email,
   };
 

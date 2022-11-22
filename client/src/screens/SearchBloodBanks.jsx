@@ -37,6 +37,10 @@ const SearchBloodBanks = () => {
     });
   }, [selectedState]);
 
+  const replaceSpaceWithPlus = (str) => {
+    return str.replace(/\s/g, "+");
+  };
+
   const fetchBlood = async () => {
     await axios
       .get(endPoint)
@@ -163,6 +167,7 @@ const SearchBloodBanks = () => {
                   <th scope="col">Email</th>
                   <th scope="col">Category</th>
                   <th scope="col">Distance(Km)</th>
+                  <th scope="col">Google Map</th>
                 </tr>
               </thead>
               <tbody>
@@ -177,6 +182,20 @@ const SearchBloodBanks = () => {
                     </td>
                     <td>{bloodBank[5]}</td>
                     <td>{bloodBank[6]}</td>
+                    <td>
+                      <a
+                        href={`https://www.google.com/maps/dir/?api=1&destination=${replaceSpaceWithPlus(
+                          bloodBank[2]
+                        )}`}
+                        target="_blank"
+                      >
+                        <img
+                          src="https://upload.wikimedia.org/wikipedia/commons/a/aa/Google_Maps_icon_%282020%29.svg"
+                          alt="google map"
+                          style={{ width: "30px", height: "30px" }}
+                        />
+                      </a>
+                    </td>
                   </tr>
                 ))}
               </tbody>

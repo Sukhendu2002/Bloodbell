@@ -42,7 +42,7 @@ const ScoreBoard = () => {
                     <tr key={index}>
                       <th scope="row">{index + 1}</th>
                       <td>{user.name}</td>
-                      <td>{user.donationCount}</td>
+                      <td>{user.donationCount * 10}</td>
                     </tr>
                   );
                 })

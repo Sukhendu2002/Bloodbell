@@ -45,7 +45,7 @@ const Header = ({ isLoggedIn, setLoggedIn }) => {
             marginRight: "10px",
           }}
         >
-          BloodBell
+          BloodBell🩸
         </Link>
         <button
           className="navbar-toggler"
@@ -110,8 +110,20 @@ const Header = ({ isLoggedIn, setLoggedIn }) => {
                 </span>
               </Link>
             </li> */}
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/3629/3629625.png"
+              alt="car"
+              style={{
+                height: "30px",
+                width: "30px",
+                marginLeft: "20px",
+                marginTop: "10px",
+              }}
+            />
             <li className="nav-item">
-              <Link className="nav-link" to="scoreboard" 
+              <Link
+                className="nav-link"
+                to="scoreboard"
                 style={{
                   marginLeft: "10px",
                   alignItems: "center",
@@ -119,9 +131,33 @@ const Header = ({ isLoggedIn, setLoggedIn }) => {
                   fontSize: "1.2rem",
                   color: "black",
                 }}
-
               >
                 Scoreboard
+              </Link>
+            </li>
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/5486/5486267.png"
+              alt="car"
+              style={{
+                height: "30px",
+                width: "30px",
+                marginLeft: "20px",
+                marginTop: "10px",
+              }}
+            />
+            <li className="nav-item">
+              <Link
+                className="nav-link"
+                to="bloodAvailability"
+                style={{
+                  marginLeft: "10px",
+                  alignItems: "center",
+                  textAlign: "center",
+                  fontSize: "1.2rem",
+                  color: "black",
+                }}
+              >
+                Blood Availability
               </Link>
             </li>
           </ul>
@@ -236,6 +272,9 @@ const Header = ({ isLoggedIn, setLoggedIn }) => {
                     color: "black",
                     fontSize: "1.5rem",
                   }}
+                  onClick={() => {
+                    setOpenbox(false);
+                  }}
                 >
                   Profile
                 </Link>
@@ -247,6 +286,9 @@ const Header = ({ isLoggedIn, setLoggedIn }) => {
                     color: "black",
                     fontSize: "1.5rem",
                   }}
+                  onClick={() => {
+                    setOpenbox(false);
+                  }}
                 >
                   Dashboard
                 </Link>
@@ -257,6 +299,9 @@ const Header = ({ isLoggedIn, setLoggedIn }) => {
                     color: "black",
                     fontSize: "1.5rem",
                     marginBottom: "10px",
+                  }}
+                  onClick={() => {
+                    setOpenbox(false);
                   }}
                 >
                   Donation Status

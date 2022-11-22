@@ -7,11 +7,22 @@ exports.addDonation = async (req, res) => {
     //check if user has a pending donation
     const pendingDonation = await Donation.findOne({
       donor: donor,
-      status: "Pending" || "Accepted",
+      status: "Pending",
     });
     if (pendingDonation) {
       return res.status(400).json({
         message: "You already have a pending donation",
+      });
+    }
+    //check if the user has donated in the last 3 months
+    const user = await User.findById(donor).select("lastDonated");
+    const lastDonated = new Date(user.lastDonated);
+    const currentDate = new Date();
+    const diff = currentDate.getTime() - lastDonated.getTime();
+    const diffDays = Math.ceil(diff / (1000 * 3600 * 24));
+    if (diffDays < 90) {
+      return res.status(400).json({
+        message: "You can donate after 3 months",
       });
     }
 
@@ -67,24 +78,32 @@ exports.getDonationbyUserIds = async (req, res) => {
 
 exports.updateDonation = async (req, res) => {
   const { donorId, status } = req.body;
+  const currentDate = new Date();
   try {
-    const donation = await Donation.findOneAndUpdate(
-      { donor: donorId },
-      { status },
-      { new: true }
+    const donations = await Donation.find({ donor: donorId });
+    //find the donation with the status pending
+    const donation = donations.find(
+      (donation) => donation.status === "Pending"
     );
-    if (status === "Completed") {
-      await User.findOneAndUpdate(
-        { _id: donorId },
-        { $inc: { donationCount: 1 } },
-        {
-          $set: { lastDonated: Date.now() },
-        }
+    if (!donation) {
+      return res.status(400).json({
+        message: "No pending donation found",
+      });
+    }
+    if (status === "Completed" && donation) {
+      console.log("completed");
+      await Donation.findByIdAndUpdate(donation._id, { status: "Completed" });
+      await User.findByIdAndUpdate(donorId, { lastDonated: currentDate });
+      await User.findByIdAndUpdate(donorId, { $inc: { donationCount: 1 } });
+    } else if (status === "Rejected" && donation) {
+      const donation = await Donation.findOneAndUpdate(
+        { donor: donorId },
+        { status },
+        { new: true }
       );
     }
     res.status(200).json({
       status: "success",
-      donation,
     });
   } catch (err) {
     res.status(400).json({

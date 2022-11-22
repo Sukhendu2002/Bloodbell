@@ -35,8 +35,28 @@ const Home = () => {
             paddingTop: "5rem",
           }}
         >
-          <h1 className="display-1">BloodBell</h1>
-          <h3 className="display-4">Donate Blood, Save Lives</h3>
+          <h1
+            className="display-1"
+            style={{
+              fontFamily: "Roboto Condensed",
+              //make it extra bold
+              fontWeight: "700",
+              color: "#f50057",
+            }}
+          >
+            BloodBell🩸
+          </h1>
+          <h3
+            className="display-4"
+            style={{
+              fontFamily: "Roboto Condensed",
+              //make it extra bold
+              fontWeight: "700",
+              color: "#f50057",
+            }}
+          >
+            Donate Blood, Save Lives
+          </h3>
           <p className="lead">
             BloodBell is a platform to connect blood donors and blood
             recipients.
