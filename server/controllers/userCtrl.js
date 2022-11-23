@@ -164,3 +164,64 @@ exports.getScoreBoard = async (req, res, next) => {
     });
   }
 };
+
+//update user
+exports.updateUser = async (req, res, next) => {
+  const {
+    userId,
+    name,
+    email,
+    adharno,
+    bloodGroup,
+    contact,
+    city,
+    state,
+    specificCity,
+    dob,
+  } = req.body;
+  try {
+    //find the user
+    const user = await User.findById((_id = userId));
+    // console.log(user);
+    //only update the fields that are not empty
+    if (name) {
+      user.name = name;
+    }
+    if (email) {
+      user.email = email;
+    }
+    if (adharno) {
+      user.adharno = adharno;
+    }
+    if (bloodGroup) {
+      user.bloodGroup = bloodGroup;
+    }
+    if (contact) {
+      user.contact = contact;
+    }
+    if (city) {
+      user.city = city;
+    }
+    if (state) {
+      user.state = state;
+    }
+    if (specificCity) {
+      user.specificCity = specificCity;
+    }
+    if (dob) {
+      user.dob = dob;
+    }
+    //save the user
+    await user.save();
+    res.status(200).json({
+      success: true,
+      user: user,
+    });
+  } catch (err) {
+    res.status(400).json({
+      success: false,
+      message: "Error updating user",
+      error: err,
+    });
+  }
+};

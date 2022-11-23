@@ -41,7 +41,7 @@ const Home = () => {
               fontFamily: "Roboto Condensed",
               //make it extra bold
               fontWeight: "700",
-              color: "#f50057",
+              color: "#f8312f",
             }}
           >
             BloodBell🩸
@@ -52,7 +52,7 @@ const Home = () => {
               fontFamily: "Roboto Condensed",
               //make it extra bold
               fontWeight: "700",
-              color: "#f50057",
+              color: "#f8312f",
             }}
           >
             Donate Blood, Save Lives

@@ -46,6 +46,8 @@ const BloodAvailability = () => {
       //sort the data that contains "<p class='text-success'>"
 
       const temp = res.data.data;
+      //clear the array
+      setAvailableBlood([]);
       console.log(temp);
       for (let i = 0; i < temp.length; i++) {
         if (temp[i][3].includes("<p class='text-success'>")) {
@@ -197,7 +199,14 @@ const BloodAvailability = () => {
                     <td>{item[2]}</td>
                     {/* <td>{item[3]}</td> */}
                     <td dangerouslySetInnerHTML={{ __html: item[3] }}></td>
-                    <td dangerouslySetInnerHTML={{ __html: item[4] }}></td>
+                    {/* <td dangerouslySetInnerHTML={{ __html: item[4] }}></td> */}
+                    <td>
+                      {item[4].includes("live_stock.png") ? (
+                        <h6 style={{ color: "green" }}>Live</h6>
+                      ) : (
+                        item[4]
+                      )}
+                    </td>
                   </tr>
                 ))}
             </tbody>
