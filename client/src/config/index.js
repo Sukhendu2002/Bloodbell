@@ -1,3 +1,3 @@
-const server = "http://localhost:5000";
+const server = "https://online-bloodbank-system.onrender.com";
 
 export default server;
