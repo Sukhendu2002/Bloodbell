@@ -160,6 +160,35 @@ const Header = ({ isLoggedIn, setLoggedIn }) => {
                 Blood Availability
               </Link>
             </li>
+            {isLoggedIn ? (
+              <>
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/5752/5752153.png"
+                  alt="car"
+                  style={{
+                    height: "30px",
+                    width: "30px",
+                    marginLeft: "20px",
+                    marginTop: "10px",
+                  }}
+                />
+                <li className="nav-item">
+                  <Link
+                    className="nav-link"
+                    to="feed"
+                    style={{
+                      marginLeft: "10px",
+                      alignItems: "center",
+                      textAlign: "center",
+                      fontSize: "1.2rem",
+                      color: "black",
+                    }}
+                  >
+                    Feed
+                  </Link>
+                </li>
+              </>
+            ) : null}
           </ul>
           {isLoggedIn ? (
             <div className="d-flex">

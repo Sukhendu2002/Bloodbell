@@ -17,6 +17,7 @@ app.get("/", (req, res) => {
 });
 app.use("/api/auth", require("./routes/userRoure"));
 app.use("/api/donation", require("./routes/donationRoute"));
+app.use("/api/post", require("./routes/post"));
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

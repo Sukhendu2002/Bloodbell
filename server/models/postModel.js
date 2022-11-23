@@ -1,30 +1,25 @@
 const mongoose = require("mongoose");
 
 const postModel = new mongoose.Schema({
-  title: {
+  autherName: {
     type: String,
-    required: [true, "Please enter title"],
-    minlength: [3, "Title must be at least 3 characters"],
-    maxlength: 255,
+    required: true,
   },
-  description: {
+  autherId: {
     type: String,
-    required: [true, "Please enter description"],
+    required: true,
   },
-  bloodGroup: {
+  content: {
     type: String,
-    required: [true, "Please enter blood group"],
+    required: true,
   },
-  contact: {
-    type: String,
-    required: [true, "Please enter contact number"],
+  likes: {
+    type: Number,
+    default: 0,
   },
-  address: {
-    type: String,
-    required: [true, "Please enter address"],
-  },
-  user: {
-    type: String,
+  date: {
+    type: Date,
+    default: Date.now,
   },
 });
 
